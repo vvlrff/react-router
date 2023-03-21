@@ -10,9 +10,10 @@ a {
 }
 
 header {
+  font-size: 24px;
   display: flex;
   justify-content: center;
-  height: 5vh;
+  height: 6vh;
   position: fixed;
   width: 100%;
   top: 0;

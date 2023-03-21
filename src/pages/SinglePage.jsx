@@ -25,7 +25,7 @@ const SinglePage = () => {
       .catch(err =>
         console.log(err)
       )
-  }, [id])
+  }, [id]) 
 
   return (
     <>
