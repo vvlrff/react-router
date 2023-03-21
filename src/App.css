@@ -5,6 +5,22 @@
   text-align: center;
 }
 
+a {
+  margin: 10px;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  height: 5vh;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  text-align: center;
+  background: #d6d1d1;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
