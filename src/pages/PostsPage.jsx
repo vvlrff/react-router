@@ -1,46 +1,25 @@
-import { useState, useEffect } from "react"
-import { Link, useSearchParams } from "react-router-dom"
+import { Link, useSearchParams, useLoaderData } from "react-router-dom"
 import axios from 'axios'
+
+import { BlogFilter } from "../components/BlogFilter"
 
 import '../assets/css/PostsPage.css'
 
 const PostsPage = () => {
-  const [posts, setPosts] = useState([])
+  const posts = useLoaderData()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const postQuery = searchParams.get('post') || ''
+  const latest = searchParams.has('latest')
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const form = event.target
-    
-    const query = form.search.value
-
-    setSearchParams({post: query})
-  }
-
-  useEffect(() => {
-    axios
-      .get('https://jsonplaceholder.typicode.com/posts')
-      .then(res => {
-        console.log(res.data)
-        setPosts(res.data)
-      })
-      .catch(err =>
-        console.log(err)
-      )
-  }, [])
+  const startsFrom = latest ? 80 : 1
 
   return (
     <div>
       <h1>Posts</h1>
-      <form autoComplete="off" onSubmit={handleSubmit}>
-        <input type='text' name="search" />
-        <input type='submit' value='search' />
-
-      </form>
+      <BlogFilter postQuery={postQuery} latest={latest} setSearchParams={setSearchParams} />
       {posts.filter(
-        post => post.title.includes(postQuery)
+        post => post.title.includes(postQuery) && post.id >= startsFrom
       ).map(post => (
 
         <div className="container">
@@ -54,4 +33,10 @@ const PostsPage = () => {
   )
 }
 
-export default PostsPage
+const postsLoader = async () => {
+  const res = await axios.get('https://jsonplaceholder.typicode.com/posts')
+
+  return res.data
+}
+
+export { PostsPage, postsLoader }
